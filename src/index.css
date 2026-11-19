@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+  
+  body {
+    background-color: #03060D;
+    color: #F8FAFC;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #03060D;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #091426;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 191, 255, 0.25);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #075BFF;
+}
+
+/* High-tech grid background */
+.bg-tech-grid {
+  background-image: 
+    linear-gradient(to right, rgba(0, 191, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 191, 255, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.bg-tech-grid-dense {
+  background-image: 
+    linear-gradient(to right, rgba(0, 229, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 229, 255, 0.06) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.bg-dots {
+  background-image: radial-gradient(rgba(0, 191, 255, 0.15) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Glassmorphism Classes */
+.glass-panel {
+  background: rgba(9, 20, 38, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 191, 255, 0.18);
+}
+
+.glass-panel-glow {
+  background: rgba(9, 20, 38, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 229, 255, 0.35);
+  box-shadow: 0 20px 50px -10px rgba(0, 191, 255, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Subtle corner tech brackets */
+.tech-corner {
+  position: relative;
+}
+
+.tech-corner::before,
+.tech-corner::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-color: rgba(0, 229, 255, 0.6);
+  pointer-events: none;
+}
+
+.tech-corner::before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid;
+  border-left: 2px solid;
+}
+
+.tech-corner::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+}
+
+/* Shimmer animation */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+.animate-shimmer {
+  animation: shimmer 3s infinite;
+}
+
+/* Glowing text */
+.text-glow-cyan {
+  text-shadow: 0 0 16px rgba(0, 229, 255, 0.6);
+}
+
+.text-glow-blue {
+  text-shadow: 0 0 20px rgba(0, 191, 255, 0.5);
+}
