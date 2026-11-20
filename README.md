@@ -76,3 +76,4 @@ This repository includes a production-tuned `vercel.json` with immutable asset c
 ---
 
 © 2026 StructureGuard. All Rights Reserved.
+

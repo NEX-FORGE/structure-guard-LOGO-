@@ -1,126 +1,127 @@
+import { Download, Check, Copy } from 'lucide-react';
 import { useState } from 'react';
-import { ParticleCanvas } from './components/ParticleCanvas';
-import { Toast } from './components/Toast';
-import { Navbar } from './components/Navbar';
-import { Hero } from './components/Hero';
-import { LogoShowcase } from './components/LogoShowcase';
-import { LogoPreview } from './components/LogoPreview';
-import { BrandIdentity } from './components/BrandIdentity';
-import { BrandSpecs } from './components/BrandSpecs';
-import { AssetHub } from './components/AssetHub';
-import { Footer } from './components/Footer';
-import type { ToastMessage } from './types';
 
 export function App() {
-  const [toasts, setToasts] = useState<ToastMessage[]>([]);
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
-  const addToast = (title: string, message: string, type: 'success' | 'info' | 'download' = 'success') => {
-    const id = `${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
-    const newToast: ToastMessage = { id, title, message, type };
+  const images = [
+    {
+      id: 1,
+      title: 'StructureGuard Official Logo Banner',
+      filename: 'structureguard-banner.jpg',
+      src: '/structureguard-banner.jpg',
+      alt: 'STRUCTUREGUARD - Smart Structural Health Monitoring System Official Logo',
+    },
+    {
+      id: 2,
+      title: 'StructureGuard 3D Shield Mark',
+      filename: 'structureguard-icon.png',
+      src: '/structureguard-icon.png',
+      alt: 'StructureGuard 3D Hexagonal Shield Symbol',
+    },
+  ];
 
-    setToasts((prev) => [...prev, newToast]);
-
-    // Auto dismiss after 3.8s
-    setTimeout(() => {
-      setToasts((prev) => prev.filter((t) => t.id !== id));
-    }, 3800);
-  };
-
-  const removeToast = (id: string) => {
-    setToasts((prev) => prev.filter((t) => t.id !== id));
-  };
-
-  const handleGlobalDownload = () => {
+  const handleDownload = (src: string, filename: string) => {
     const link = document.createElement('a');
-    link.href = '/StructureGuard Tech Logo.png';
-    link.download = 'StructureGuard Tech Logo.png';
+    link.href = src;
+    link.download = filename;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-
-    addToast(
-      'Download Started',
-      'Downloading master asset: "StructureGuard Tech Logo.png" (2172×724 RGBA)',
-      'download'
-    );
   };
 
-  const handleScrollToSection = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  const handleScrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const handleCopyLink = (src: string, index: number) => {
+    const fullUrl = `${window.location.origin}${src}`;
+    navigator.clipboard.writeText(fullUrl);
+    setCopiedIndex(index);
+    setTimeout(() => setCopiedIndex(null), 2000);
   };
 
   return (
-    <div className="relative min-h-screen bg-[#03060D] text-slate-100 selection:bg-[#00E5FF]/20 selection:text-[#00E5FF]">
-      {/* Background Interactive Floating Particle Engine */}
-      <ParticleCanvas />
-
-      {/* Floating System Notification Toast Engine */}
-      <Toast toasts={toasts} onDismiss={removeToast} />
-
-      {/* Futuristic Fixed Navigation Bar */}
-      <Navbar onDownload={handleGlobalDownload} />
-
-      {/* Main Content Sections */}
-      <main className="relative z-10">
-        {/* SECTION A: HERO */}
-        <Hero
-          onDownload={handleGlobalDownload}
-          onExplore={() => handleScrollToSection('showcase')}
-        />
-
-        {/* Laser Divider */}
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="h-[1px] bg-gradient-to-r from-transparent via-[#00BFFF]/30 to-transparent" />
+    <div className="min-h-screen bg-[#03060D] text-white flex flex-col justify-between selection:bg-[#00E5FF]/20 selection:text-[#00E5FF]">
+      {/* Header - Website Name with Logo */}
+      <header className="w-full border-b border-[#00BFFF]/20 bg-[#060D1A]/80 backdrop-blur-md sticky top-0 z-30 py-4 px-6">
+        <div className="max-w-5xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-3.5">
+            <img
+              src="/structureguard-icon.png"
+              alt="StructureGuard Logo"
+              className="w-10 h-10 object-contain drop-shadow-[0_0_10px_rgba(0,229,255,0.5)]"
+            />
+            <div>
+              <h1 className="font-display font-black text-xl sm:text-2xl tracking-wider text-white">
+                STRUCTURE<span className="text-[#00E5FF]">GUARD</span>
+              </h1>
+              <p className="text-[10px] sm:text-xs font-mono tracking-widest text-[#00E5FF]/80 uppercase">
+                Smart Structural Health Monitoring System
+              </p>
+            </div>
+          </div>
         </div>
+      </header>
 
-        {/* SECTION B: OFFICIAL LOGO SHOWCASE (THE CORE SECTION) */}
-        <LogoShowcase onNotify={addToast} />
+      {/* Main Content - Exactly the 2 Photos */}
+      <main className="max-w-5xl mx-auto w-full px-4 sm:px-6 py-10 flex-1 flex flex-col gap-10">
+        {images.map((img, idx) => (
+          <div
+            key={img.id}
+            className="rounded-2xl bg-[#091426]/80 border border-[#00BFFF]/30 overflow-hidden shadow-[0_15px_40px_rgba(0,0,0,0.7)] hover:border-[#00E5FF]/60 transition-all duration-300"
+          >
+            {/* Image Preview Box */}
+            <div className="relative p-6 sm:p-10 flex items-center justify-center bg-[#02050B]">
+              <img
+                src={img.src}
+                alt={img.alt}
+                className="max-h-[320px] w-auto max-w-full object-contain filter drop-shadow-[0_10px_30px_rgba(0,191,255,0.25)] rounded-lg"
+              />
+            </div>
 
-        {/* Laser Divider */}
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="h-[1px] bg-gradient-to-r from-transparent via-[#075BFF]/30 to-transparent" />
-        </div>
+            {/* Bottom Actions Bar */}
+            <div className="p-4 sm:p-5 bg-[#091426] border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h2 className="text-sm sm:text-base font-semibold text-white font-display">
+                  {img.title}
+                </h2>
+                <p className="text-xs font-mono text-slate-400">
+                  {img.filename}
+                </p>
+              </div>
 
-        {/* SECTION C: LOGO PREVIEW (Dark, Light, Blue) */}
-        <LogoPreview onNotify={addToast} />
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => handleCopyLink(img.src, idx)}
+                  className="px-4 py-2 rounded-lg bg-[#03060D] hover:bg-[#0c1a30] text-slate-200 border border-white/15 hover:border-[#00E5FF]/40 text-xs font-mono flex items-center gap-1.5 transition-colors"
+                >
+                  {copiedIndex === idx ? (
+                    <>
+                      <Check className="w-3.5 h-3.5 text-emerald-400" />
+                      <span className="text-emerald-400 font-bold">Copied!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5 text-[#00E5FF]" />
+                      <span>Copy Link</span>
+                    </>
+                  )}
+                </button>
 
-        {/* Laser Divider */}
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="h-[1px] bg-gradient-to-r from-transparent via-[#00E5FF]/25 to-transparent" />
-        </div>
-
-        {/* SECTION D: BRAND IDENTITY */}
-        <BrandIdentity />
-
-        {/* Laser Divider */}
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="h-[1px] bg-gradient-to-r from-transparent via-[#00BFFF]/30 to-transparent" />
-        </div>
-
-        {/* SECTION: BRAND SPECIFICATIONS & COLOR PALETTE */}
-        <BrandSpecs onNotify={addToast} />
-
-        {/* Laser Divider */}
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="h-[1px] bg-gradient-to-r from-transparent via-[#075BFF]/30 to-transparent" />
-        </div>
-
-        {/* SECTION: ASSET DOWNLOAD HUB */}
-        <AssetHub onNotify={addToast} />
+                <button
+                  onClick={() => handleDownload(img.src, img.filename)}
+                  className="px-4 py-2 rounded-lg bg-gradient-to-r from-[#075BFF] to-[#00BFFF] hover:from-[#00BFFF] hover:to-[#00E5FF] text-white text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-[0_0_15px_rgba(0,191,255,0.3)] transition-all"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Download</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
       </main>
 
-      {/* SECTION E/F: FOOTER */}
-      <Footer
-        onScrollToTop={handleScrollToTop}
-        onDownload={handleGlobalDownload}
-      />
+      {/* Clean Footer */}
+      <footer className="w-full border-t border-white/10 py-5 text-center text-xs font-mono text-slate-500">
+        © 2026 StructureGuard. All Rights Reserved.
+      </footer>
     </div>
   );
 }
