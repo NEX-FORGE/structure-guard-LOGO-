@@ -1,10 +1,8 @@
 import { useState } from 'react';
 import { Download, Check, Copy } from 'lucide-react';
 import { ParticleCanvas } from './components/ParticleCanvas';
-import { IntroAnimation } from './components/IntroAnimation';
 
 export function App() {
-  const [showIntro, setShowIntro] = useState(true);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
   const images = [
@@ -42,10 +40,7 @@ export function App() {
 
   return (
     <div className="relative min-h-screen bg-[#03060D] text-white flex flex-col justify-between selection:bg-[#00E5FF]/20 selection:text-[#00E5FF] overflow-x-hidden">
-      {/* Opening Intro Reveal Animation */}
-      {showIntro && <IntroAnimation onComplete={() => setShowIntro(false)} />}
-
-      {/* Futuristic Floating Particles in Background */}
+      {/* Background Interactive Floating Particle Engine */}
       <ParticleCanvas />
 
       {/* Ambient Blue Background Glows */}
@@ -55,7 +50,10 @@ export function App() {
       {/* Header - Website Name with Logo */}
       <header className="relative z-20 w-full border-b border-[#00BFFF]/20 bg-[#060D1A]/85 backdrop-blur-xl sticky top-0 py-4 px-6 shadow-[0_10px_30px_rgba(0,0,0,0.7)]">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3.5 group cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+          <div
+            className="flex items-center gap-3.5 group cursor-pointer"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          >
             <div className="relative w-11 h-11 rounded-xl bg-[#091426] border border-[#00E5FF]/40 p-1.5 flex items-center justify-center overflow-hidden shadow-[0_0_15px_rgba(0,229,255,0.3)] group-hover:border-[#00E5FF] transition-all">
               <img
                 src="/structureguard-icon.png"
