@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Download, Check, Copy, Play } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ParticleCanvas } from './components/ParticleCanvas';
 import { CinematicIntro } from './components/CinematicIntro';
 
@@ -42,8 +43,10 @@ export function App() {
 
   return (
     <div className="relative min-h-screen bg-[#03060D] text-white flex flex-col justify-between selection:bg-[#00E5FF]/20 selection:text-[#00E5FF] overflow-x-hidden">
-      {/* Cinematic Opening Brand Reveal Animation */}
-      {showIntro && <CinematicIntro onComplete={() => setShowIntro(false)} />}
+      {/* Cinematic Opening Brand Reveal Animation with AnimatePresence */}
+      <AnimatePresence mode="wait">
+        {showIntro && <CinematicIntro key="intro" onComplete={() => setShowIntro(false)} />}
+      </AnimatePresence>
 
       {/* Background Interactive Floating Particle Engine */}
       <ParticleCanvas />
@@ -53,7 +56,12 @@ export function App() {
       <div className="fixed bottom-10 right-10 w-[400px] h-[400px] bg-[#00E5FF]/10 blur-[120px] rounded-full pointer-events-none z-0" />
 
       {/* Header - Website Name with Logo */}
-      <header className="relative z-20 w-full border-b border-[#00BFFF]/20 bg-[#060D1A]/85 backdrop-blur-xl sticky top-0 py-4 px-6 shadow-[0_10px_30px_rgba(0,0,0,0.7)] animate-in fade-in duration-500">
+      <motion.header
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="relative z-20 w-full border-b border-[#00BFFF]/20 bg-[#060D1A]/85 backdrop-blur-xl sticky top-0 py-4 px-6 shadow-[0_10px_30px_rgba(0,0,0,0.7)]"
+      >
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <div
             className="flex items-center gap-3.5 group cursor-pointer"
@@ -86,13 +94,16 @@ export function App() {
             <span className="hidden sm:inline">Replay Intro</span>
           </button>
         </div>
-      </header>
+      </motion.header>
 
       {/* Main Content - Exactly the 2 Photos */}
-      <main className="relative z-10 max-w-5xl mx-auto w-full px-4 sm:px-6 py-12 flex-1 flex flex-col gap-10 animate-in fade-in slide-in-from-bottom-6 duration-700">
+      <main className="relative z-10 max-w-5xl mx-auto w-full px-4 sm:px-6 py-12 flex-1 flex flex-col gap-10">
         {images.map((img, idx) => (
-          <div
+          <motion.div
             key={img.id}
+            initial={{ y: 35, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: idx * 0.18, ease: [0.16, 1, 0.3, 1] }}
             className="group rounded-3xl bg-[#091426]/75 border border-[#00BFFF]/30 backdrop-blur-xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.8)] hover:border-[#00E5FF]/70 hover:shadow-[0_25px_60px_rgba(0,191,255,0.25)] transition-all duration-300"
           >
             {/* Top subtle laser accent line */}
@@ -151,7 +162,7 @@ export function App() {
                 </button>
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
       </main>
 
